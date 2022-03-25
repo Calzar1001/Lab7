@@ -29,6 +29,20 @@ public class UserServlet extends HttpServlet {
             throws ServletException, IOException {
         UserService service = new UserService();
         
+        String action = request.getParameter("action");
+        
+        if(action != null && action.equals("delete")){
+            try {
+                String email = request.getParameter("email");
+                
+                boolean deleted = service.delete(email);
+                
+                
+            } catch (Exception ex) {
+                Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
         try {
             List<User> users = service.getAll();
             

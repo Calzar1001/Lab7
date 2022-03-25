@@ -5,33 +5,39 @@ import javax.persistence.*;
 
 /**
  * Represents a user
+ *
  * @author Nick Hamnett
  */
 @Entity
-@Table(name="user")
-@NamedQueries({})
+@Table(name = "user")
+@NamedQueries({
+    @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
+    @NamedQuery(name = "User.softDelete", query = "UPDATE User SET active = 0 WHERE email = :email")
+
+})
 public class User implements Serializable {
+
     @Id
-    @Basic
+    @Basic(optional = false)
     @Column
     private String email;
     @Column
     private boolean active;
-    @Column(name="frist_name") 
+    @Column(name = "first_name")
     private String firstName;
-    @Column(name="Last_name")
+    @Column(name = "last_name")
     private String lastName;
     @Column
     private String password;
-    
+
     @ManyToOne(targetEntity = Role.class)
-    @JoinColumn(name="role", referencedColumnName = "role_id")
+    @JoinColumn(name = "role", referencedColumnName = "role_id")
     private Role role;
-    
+
     public User() {
-        
+
     }
-    
+
     public User(String email, boolean active, String firstName, String lastName, String password, Role role) {
         this.email = email;
         this.active = active;
@@ -40,7 +46,7 @@ public class User implements Serializable {
         this.password = password;
         this.role = role;
     }
-    
+
     public String getEmail() {
         return email;
     }
